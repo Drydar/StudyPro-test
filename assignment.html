@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Submission</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="submit.css">
+</head>
+<body>
+
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <!-- Intro Section -->
+    <div id="intro" class="text-center">
+      <h2 class="mb-3;">Welcome to the Assignment Submission Page</h2>
+      <p class="lead">Please read the instructions carefully before you begin.<br><i>Prices for assignments start as low as N400</i></p>
+      <ul class="text-start d-inline-block">
+        <li>After submission of form, an agent will contact you via WhatsApp to inform you of the price</li>
+        <li>Delivery date and location will be communicated through our WhatsApp Information group (be active)</li>
+        <li>Ensure all required fields are filled correctly.</li>
+        <li>Upload clear files (PDF, Word, or image formats) <i>if necessary</i>.</li>
+        <li>Double-check your contact information before submission.</li>
+        <li><b>Debit is automatic after a positive conclusion with the WhatsApp Customer Agent</b></li>
+        <li>If you have been wrongly debited, please reach out to the customer care with your "Assignment ID"</li>
+      </ul>
+      <button id="beginBtn" class="btn btn-primar mt-3 px-4" style="background: #ffd369;">Begin</button>
+    </div>
+
+    <!-- Assignment Form Section -->
+    <div id="formSection" class="d-none w-100" style="max-width: 500px;">
+      <h3 class="text-center mb-3" style="color: #ffd369;" style="margin-top: 50px;">Submit Your Request</h3>
+
+      <!-- Progress Bar -->
+      <div class="progress mb-3">
+        <div id="progressBar" class="progress-bar progress-bar-striped bg-primary" style="width: 0%">0%</div>
+      </div>
+
+      <!-- The Form -->
+      <form id="assignmentForm" class="border rounded p-4 bg-light shadow-sm">
+        <div class="mb-3">
+          <input type="number" name="WhatsApp" class="form-control" placeholder="WhatsApp Number" required>
+        </div>
+        <div class="mb-3">
+          <input type="text" name="department" class="form-control" placeholder="Department" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Level</label>
+          <select name="level" class="form-select" required>
+            <option value="">-- Select level --</option>
+            <option>100 level</option>
+            <option>200 level</option>
+            <option>300 level</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <input type="text" name="Course Code" class="form-control" placeholder="Course Code" required>
+        </div>
+        <div class="mb-3">
+          <label>Submission Date</label>
+          <input type="date" name="date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Urgency</label>
+            <select name="level" class="form-select" required>
+              <option value="">-- Select urgency --</option>
+              <option>Urgent</option>
+              <option>I can wait up to 5 days</option>
+              <option>I ca wait up to 10 days</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Preferred Delivery Format</label>
+              <select name="level" class="form-select" required>
+                <option value="">-- Select preferred delivery format --</option>
+                <option>PDF</option>
+                <option>.doc (Word)</option>
+                <option>Handwritten</option>
+                <option>Other</option>
+              </select>
+          </div>        
+          <div class="mb-3">
+          <label class="form-label">+ Upload Files (optional)</label>
+          <input type="file" class="form-control" id="fileInput" multiple accept=".mkv, .mp3, .mov, .pdf, .doc, .docx, image/*">
+        </div>
+        <p>Your wallet will be automatically debited after an discussing the price with an agent on WhatsApp</p>
+        <button type="submit" class="btn btn-succes w-100" style="background-color: #ffd369;;">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="submit.js"></script>
+  <script src="assignment_upload.js"></script>
+</body>
+</html>

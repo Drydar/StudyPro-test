@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About the Founder | StudyPRO</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0f7ff, #d0e8ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    .about-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+      animation: fadeUp 1.2s ease-in-out;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      position: relative;
+      height: 260px;
+      background: linear-gradient(120deg, #2196f3, #1565c0);
+    }
+
+    .profile-pic {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid #fff;
+      position: absolute;
+      left: 50%;
+      bottom: -80px;
+      transform: translateX(-50%);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-content {
+      padding: 100px 40px 40px;
+      text-align: center;
+    }
+
+    .about-content h1 {
+      font-size: 2rem;
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .about-content h2 {
+      font-size: 1.1rem;
+      color: #1565c0;
+      margin-bottom: 20px;
+    }
+
+    .about-content p {
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .goals-section {
+      text-align: left;
+      background: #f5f9ff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+      animation: slideFade 1.5s ease;
+    }
+
+    @keyframes slideFade {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .goals-section h3 {
+      color: #0d47a1;
+      margin-bottom: 15px;
+    }
+
+    .goals-section ul {
+      list-style: none;
+      padding-left: 10px;
+    }
+
+    .goals-section li {
+      margin: 10px 0;
+      color: #333;
+      font-weight: 500;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .goals-section li::before {
+      content: "✔";
+      color: #2196f3;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 30px;
+      background: #1565c0;
+      color: white;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .back-home:hover {
+      background: #0d47a1;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .about-content {
+        padding: 100px 20px 40px;
+      }
+
+      .goals-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="about-card">
+    <div class="header">
+      <div class="profile-pic">
+        <img src="ceo.jpg" alt="Founder Photo" />
+      </div>
+    </div>
+
+    <div class="about-content">
+      <h1>Ogbonnaya Emmanuel</h1>
+      <h2>Founder of StudyPRO</h2>
+      <p>
+        I created StudyPRO to make learning easier, more interactive, and accessible to every student.  
+        The platform is built to help students excel academically and gain access to real opportunities 
+        that foster growth — both in education and digital skills.
+      </p>
+
+      <div class="goals-section">
+        <h3>Our Mission & Opportunities</h3>
+        <ul>
+          <li>Deliver top-quality tutorial videos at student-friendly prices.</li>
+          <li>Provide fast and reliable assignment help.</li>
+          <li>Reward active users through giveaways and learning challenges.</li>
+          <li>Encourage collaboration and peer learning among students.</li>
+          <li>Empower students with digital and business skills.</li>
+        </ul>
+      </div>
+
+      <a href="index.html" class="back-home">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>

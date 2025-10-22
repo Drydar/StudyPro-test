@@ -1,0 +1,101 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    padding: 20px;
+    margin: 0px;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    /*background: linear-gradient(to right, rgb(115, 238, 187), rgb(4, 117, 70));*/
+    color: white;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+#avatar {
+    margin-top: -3px;
+    width: 140px;
+    height: auto;
+    border-radius: 50%;
+    padding: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.747);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.678);
+}
+
+.money {
+    background: linear-gradient(150deg,#ffd369, #eeb123);
+    /*background: linear-gradient(to right, rgb(24, 23, 23), rgb(3, 100, 40));*/
+    color: black;
+    width: 95%;
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.534);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    line-height: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.fund {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 25%;
+    line-height: 1;
+    color: black;
+    width: 80%;
+}
+
+.fund p {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgb(255, 255, 255);
+    font-weight: 600;
+}
+
+.content {
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.line {
+    border-radius: 10px;
+    box-shadow: 0 0 2px green;
+    padding: 10px 15px 0 ;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+
+.arrow {
+    color: green;
+    font-weight: 800;
+}
+
+.sign_out {
+    text-align: center;
+    background: linear-gradient(150deg,#ffd369, #eeb123);
+    width: 100%;
+    padding: 5px;
+    color: white;
+    margin: auto;
+}

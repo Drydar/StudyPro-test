@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    /*background: rgb(255, 255, 255);*/
+    background-position: center;
+    height: 100vh;
+    width: auto;
+    background-size: cover;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#avatar {
+    width: 60px;
+    background-color: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.685);
+    border-radius: 50%;
+}
+
+.user_details {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    margin: 10px auto;
+    margin-left: 10px;
+    color: white;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+    line-height: 0;
+}
+
+.name h5{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.name p {
+    font-size: 14px;
+}
+
+.course_body {
+    margin: 10px;
+    border-radius: 18px;
+    background-color: whitesmoke;
+    box-shadow: 0 0 10px black;
+    padding: 0;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+}
+
+.course_body h2 {
+    background: linear-gradient(to right, rgb(24, 23, 23), rgb(3, 100, 40));
+    background-position: center;
+    background-size: cover;
+    border-radius: 18px 18px 0 0 ;
+    font-size: 25px;
+    padding: 7px 18px;
+    color: white;
+}
+
+.semester {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px auto;
+    /*box-shadow: 0 1px 0px 0px black;*/
+}
+
+.semester p {
+    background-color: none;
+    transition: 0.2s ease-in-out;
+    font-weight: bold;
+    text-align: center;
+}
+
+.semester p:hover {
+    scale: 1.1;
+}
+
+.courses_list {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 0 3px black;
+    margin: 0px auto;
+    border-radius: 14px;
+    flex: 1;
+    width: 95%;
+}
+
+.first_semester {
+    display: none;
+}
+.first_semester.active {
+    display: block;
+}
+
+.second_semester {
+    display: none;
+}
+.second_semester.active {
+    display: block;
+}
+
+.the_courses {
+    border-radius: 12px;
+    padding: 10px;
+    aspect-ratio: 2.8/0.6;
+    margin: 7px 3px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    transition: 0.2s ease-in;
+}
+
+.the_courses:hover {
+    scale: 0.96;
+    box-shadow: 0 0 4px black;
+}
+
+.the_courses::before {
+    content: '';
+    position: absolute;
+    backdrop-filter: blur(2px);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 12px;
+    box-shadow: 0 0 2px black;
+}
+
+.the_courses p {
+    color: white;
+    position: relative;
+    font-size: 23px;
+    text-align: left;
+    padding: 3px;
+    font-weight: bold;
+    text-shadow: 0 0 3px black;
+}
+
+.topics {
+    display: none;
+    width: 95%;
+}
+.topics.active {
+    display: block;
+}
+
+.topics p {
+    background: rgba(0, 0, 0, 0.164);
+    font-size: 17px;
+    font-weight: normal;
+    box-shadow: 0 0 4px rgb(255, 255, 255);
+    border-radius: 9px;
+    padding: 8px 3px;
+    margin: 7px;
+    transition: 0.3s ease-in-out;
+}
+
+.topics p:hover {
+    scale: 1.04;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+}

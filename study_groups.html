@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Groups — Live Demo</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #007bff;
+      --light-blue: #e9eefb;
+      --bg-start: #e9f1ff;
+      --bg-end: #ffffff;
+      --success: #28a745;
+      --muted: #888;
+    }
+
+    body {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      /*background: linear-gradient(135deg, var(--bg-start), var(--bg-end));*/
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+    }
+
+    h2 { font-weight: 700; }
+
+    .nav-tabs { justify-content: center; border-bottom: none; }
+    .nav-link { font-weight: 500; color: #555; border-radius: 8px; transition: .25s; }
+    .nav-link.active { background: var(--blue); color: #fff; box-shadow: 0 4px 10px rgba(0,123,255,.18); }
+
+    .content-box {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(20,30,60,0.06);
+      margin-top: 20px;
+      padding: 22px;
+      display: none;
+      animation: fadeIn .35s ease forwards;
+    }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(10px)} to {opacity:1; transform:none} }
+
+    .group-item {
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 14px; border-radius:10px; background:#f6f8fb; margin-bottom:10px;
+      transition: background .18s;
+    }
+    .group-item:hover { background:#eef3fb; }
+    .group-name { font-weight:600; }
+
+    /* sub tabs */
+    .sub-tabs { display:flex; justify-content:center; gap:10px; margin-bottom:15px; }
+    .sub-tab { padding:8px 18px; border-radius:20px; background:#f1f1f1; border:none; cursor:pointer; font-weight:500; }
+    .sub-tab.active { background:var(--blue); color:#fff; }
+
+    /* chat */
+    .chat-box { display:flex; flex-direction:column; height:430px; background:#fbfdff; border:1px solid #e6eefc; border-radius:14px; overflow:hidden; position:relative; }
+    .chat-header { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--blue); color:#fff; font-weight:600; }
+    .back-btn, .info-btn { background:none; border:none; color:#fff; font-weight:700; cursor:pointer; }
+    .chat-body { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; background: linear-gradient(#f7fbff, #f0f4ff); }
+    .msg { max-width:78%; padding:10px 14px; border-radius:16px; font-size:.95rem; box-shadow:0 2px 6px rgba(10,20,50,0.06); word-wrap:break-word; }
+    .msg.you { align-self:flex-end; background:var(--blue); color:#fff; border-bottom-right-radius:4px; }
+    .msg.other { align-self:flex-start; background:var(--light-blue); color:#222; border-bottom-left-radius:4px; }
+    .timestamp { font-size:.72rem; color:var(--muted); margin-top:6px; text-align:right; opacity:.9; }
+
+    /* typing bubble (inside chat) */
+    .typing {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:14px;
+      background:#e9eefb;
+      width:auto;
+      height:36px;
+      box-shadow:0 2px 5px rgba(10,20,50,0.04);
+      animation: fadeIn .18s ease;
+    }
+    .typing .dots {
+      display:flex; gap:4px; align-items:center;
+    }
+    .typing .dot {
+      width:7px; height:7px; border-radius:50%; background:#6b78ff; opacity:.9;
+      transform: translateY(0);
+      animation: bounce 1s infinite ease-in-out;
+    }
+    .typing .dot:nth-child(2) { animation-delay:.15s }
+    .typing .dot:nth-child(3) { animation-delay:.3s }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity:.8 }
+      30% { transform: translateY(-6px); opacity:1 }
+    }
+
+    .chat-input { display:flex; gap:10px; align-items:center; padding:12px; border-top:1px solid #e6ecf8; background:#fff; }
+    .chat-input input { flex:1; border-radius:20px; padding:10px 14px; border:1px solid #dae6fb; outline:none; }
+    .chat-input button { width:44px; height:44px; border-radius:50%; background:var(--blue); color:#fff; border:none; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+
+    /* group info panel */
+    .group-info {
+      position:absolute; top:0; right:-100%; width:320px; height:100%; background:#fff; border-left:3px solid var(--blue);
+      box-shadow:-10px 0 30px rgba(10,20,50,0.08); padding:18px; transition:right .32s cubic-bezier(.2,.9,.2,1); overflow:auto;
+      z-index:8;
+    }
+    .group-info.active { right:0; }
+    .close-info { position:absolute; top:8px; right:12px; border:none; background:none; font-size:1.4rem; color:var(--blue); cursor:pointer; }
+
+    .member-list { padding-left:0; margin-top:8px; }
+    .member-item { display:flex; align-items:center; gap:10px; padding:8px 6px; border-bottom:1px solid #f1f4fb; }
+    .status-dot { width:11px; height:11px; border-radius:50%; display:inline-block; box-shadow:0 0 0 3px rgba(0,0,0,0.02); }
+    .status-dot.online { background:#28c76f; }
+    .status-dot.offline { background:#c8cbd1; }
+
+    .member-name { font-weight:600; }
+    .member-meta { font-size:.82rem; color:var(--muted) }
+
+    /* small screens */
+    @media (max-width:700px) {
+      .group-info { position:fixed; width:100%; right:-100%; }
+      .group-info.active { right:0; }
+      .chat-box { height:70vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-left mb-3">Study Groups</h2>
+
+    <!-- top nav -->
+    <ul class="nav nav-tabs" id="groupTabs">
+      <li class="nav-item"><button class="nav-link active" id="availableBtn">Available Groups</button></li>
+      <li class="nav-item"><button class="nav-link" id="createBtn">Create Group</button></li>
+    </ul>
+
+    <!-- available groups container -->
+    <div id="availableGroups" class="content-box" style="display:block;">
+      <div class="sub-tabs">
+        <button class="sub-tab active" id="myGroupsBtn">My Groups</button>
+        <button class="sub-tab" id="joinGroupsBtn">Join Groups</button>
+      </div>
+
+      <!-- My Groups -->
+      <div id="myGroups">
+        <div class="group-item">
+          <div>
+            <div class="group-name">Physics Elite Circle</div>
+            <small>9 members • Active today</small>
+          </div>
+          <button class="btn btn-sm btn-success join-btn">Enter</button>
+        </div>
+
+        <div class="group-item">
+          <div>
+            <div class="group-name">Literature Reviewers</div>
+            <small>7 members • 3 unread messages</small>
+          </div>
+          <button class="btn btn-sm btn-success join-btn">Enter</button>
+        </div>
+
+        <div class="group-item">
+          <div>
+            <div class="group-name">General Knowledge Group</div>
+            <small>15 members • Active now</small>
+          </div>
+          <button class="btn btn-sm btn-success join-btn">Enter</button>
+        </div>
+      </div>
+
+      <!-- Join Groups -->
+      <div id="joinGroups" style="display:none;">
+        <div class="group-item">
+          <div>
+            <div class="group-name">Mathematics Study Squad</div>
+            <small>12 members • Active now</small>
+          </div>
+          <button class="btn btn-sm btn-primary join-btn">Join</button>
+        </div>
+
+        <div class="group-item">
+          <div>
+            <div class="group-name">WAEC English Prep Group</div>
+            <small>8 members • 2 new messages</small>
+          </div>
+          <button class="btn btn-sm btn-primary join-btn">Join</button>
+        </div>
+
+        <div class="group-item">
+          <div>
+            <div class="group-name">Science Discussion Hub</div>
+            <small>15 members • Active today</small>
+          </div>
+          <button class="btn btn-sm btn-primary join-btn">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- create group (keeps hidden until clicked) -->
+    <div id="createGroup" class="content-box">
+      <h5 class="mb-3 fw-semibold">Create a New Study Group</h5>
+      <form onsubmit="event.preventDefault(); alert('Group created (demo)');">
+        <div class="mb-3">
+          <label class="form-label">Group Name</label>
+          <input class="form-control" required placeholder="Enter group name" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="3" placeholder="Describe your group"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Choose Subject</label>
+          <select class="form-select">
+            <option>Mathematics</option>
+            <option>English</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Create Group</button>
+      </form>
+    </div>
+
+    <!-- chat interface -->
+    <div id="chatInterface" class="content-box" style="display:none;">
+      <div class="chat-box">
+        <div class="chat-header">
+          <button class="back-btn" id="backToGroups">← Back</button>
+          <span id="chatGroupName">Study Group</span>
+          <button class="info-btn" id="showInfo">ℹ️</button>
+        </div>
+
+        <div class="chat-body" id="chatMessages">
+          <!-- initial sample message -->
+          <div class="msg other">
+            Hi everyone! Welcome to the group 😊
+            <div class="timestamp">10:15 AM</div>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <input id="messageInput" placeholder="Type a message..." autocomplete="off" />
+          <button id="sendBtn">➤</button>
+        </div>
+
+        <!-- group info panel (dynamic members + online dots) -->
+        <div class="group-info" id="groupInfo">
+          <button class="close-info" id="closeInfo">&times;</button>
+          <h5 id="infoGroupName">Physics Elite Circle</h5>
+          <p id="infoDesc"><strong>Description:</strong> A study group for Physics students preparing for exams.</p>
+          <p id="infoSubject"><strong>Subject:</strong> Physics</p>
+          <p><strong>Members:</strong> <span id="infoCount">9</span></p>
+          <ul class="member-list" id="memberList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- elements
+    const availableBtn = document.getElementById('availableBtn');
+    const createBtn = document.getElementById('createBtn');
+    const availableGroups = document.getElementById('availableGroups');
+    const createGroup = document.getElementById('createGroup');
+    const chatInterface = document.getElementById('chatInterface');
+    const joinButtons = document.querySelectorAll('.join-btn');
+    const backToGroups = document.getElementById('backToGroups');
+    const chatGroupName = document.getElementById('chatGroupName');
+    const sendBtn = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const myGroupsBtn = document.getElementById('myGroupsBtn');
+    const joinGroupsBtn = document.getElementById('joinGroupsBtn');
+    const myGroups = document.getElementById('myGroups');
+    const joinGroups = document.getElementById('joinGroups');
+
+    const showInfo = document.getElementById('showInfo');
+    const groupInfo = document.getElementById('groupInfo');
+    const closeInfo = document.getElementById('closeInfo');
+    const infoGroupName = document.getElementById('infoGroupName');
+    const infoCount = document.getElementById('infoCount');
+    const memberList = document.getElementById('memberList');
+
+    // demo users
+    const demoUsers = ["Ada", "Chika", "Emeka", "Tolu", "Grace"];
+    const demoReplies = [
+      "Can someone explain question 5?",
+      "I think it’s about simultaneous equations.",
+      "Yes! You use substitution method here.",
+      "I’ll upload my solution soon.",
+      "That makes sense. Thanks!",
+      "Let's meet at 5 PM for revision.",
+      "Good job everyone 💪"
+    ];
+
+    // keep statuses in an object: true = online, false = offline
+    const statuses = {};
+    demoUsers.forEach(u => statuses[u] = Math.random() > 0.3); // initialize randomly
+
+    // render members into group-info panel
+    function renderMemberList() {
+      memberList.innerHTML = '';
+      demoUsers.forEach((name, idx) => {
+        const li = document.createElement('li');
+        li.className = 'member-item';
+        // dot
+        const dot = document.createElement('span');
+        dot.className = 'status-dot ' + (statuses[name] ? 'online' : 'offline');
+        dot.id = `dot-${name}`;
+        // name block
+        const nameBlock = document.createElement('div');
+        const nm = document.createElement('div');
+        nm.className = 'member-name';
+        nm.textContent = name + (idx === 0 ? ' (Admin)' : '');
+        const meta = document.createElement('div');
+        meta.className = 'member-meta';
+        meta.textContent = statuses[name] ? 'Online' : 'Offline';
+        meta.id = `meta-${name}`;
+
+        nameBlock.appendChild(nm);
+        nameBlock.appendChild(meta);
+        li.appendChild(dot);
+        li.appendChild(nameBlock);
+        memberList.appendChild(li);
+      });
+      infoCount.textContent = demoUsers.length;
+    }
+
+    renderMemberList();
+
+    // toggle My/Join tabs
+    myGroupsBtn.addEventListener('click', () => {
+      myGroups.style.display = 'block';
+      joinGroups.style.display = 'none';
+      myGroupsBtn.classList.add('active');
+      joinGroupsBtn.classList.remove('active');
+    });
+    joinGroupsBtn.addEventListener('click', () => {
+      joinGroups.style.display = 'block';
+      myGroups.style.display = 'none';
+      joinGroupsBtn.classList.add('active');
+      myGroupsBtn.classList.remove('active');
+    });
+
+    // top nav
+    availableBtn.addEventListener('click', () => {
+      availableGroups.style.display = 'block';
+      createGroup.style.display = 'none';
+      chatInterface.style.display = 'none';
+      availableBtn.classList.add('active');
+      createBtn.classList.remove('active');
+    });
+    createBtn.addEventListener('click', () => {
+      availableGroups.style.display = 'none';
+      createGroup.style.display = 'block';
+      chatInterface.style.display = 'none';
+      createBtn.classList.add('active');
+      availableBtn.classList.remove('active');
+    });
+
+    // when clicking join/enter open chat
+    joinButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const groupName = btn.parentElement.querySelector('.group-name').textContent;
+        openChat(groupName);
+      });
+    });
+
+    function openChat(groupName) {
+      chatGroupName.textContent = groupName;
+      infoGroupName.textContent = groupName;
+      // clear chat body for demo or keep previous? We'll keep previous messages across groups for demo simplicity
+      availableGroups.style.display = 'none';
+      chatInterface.style.display = 'block';
+      // ensure member list in info is shown for the selected group (demo uses same list)
+      renderMemberList();
+    }
+
+    backToGroups.addEventListener('click', () => {
+      chatInterface.style.display = 'none';
+      availableGroups.style.display = 'block';
+    });
+
+    // show/hide info panel
+    showInfo.addEventListener('click', () => groupInfo.classList.add('active'));
+    closeInfo.addEventListener('click', () => groupInfo.classList.remove('active'));
+
+    // send message and trigger auto-reply with typing indicator inside chat
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      const txt = messageInput.value.trim();
+      if (!txt) return;
+      appendMessage('you', txt);
+      messageInput.value = '';
+      // schedule auto reply: show typing indicator then reply
+      const replyDelay = 1200 + Math.random() * 2800; // 1.2s - 4s
+      showTypingIndicator();
+      setTimeout(() => {
+        hideTypingIndicator();
+        autoReply();
+      }, replyDelay);
+    }
+
+    function appendMessage(type, text, authorName) {
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const el = document.createElement('div');
+      el.className = 'msg ' + (type === 'you' ? 'you' : 'other');
+      if (type === 'other' && authorName) {
+        el.innerHTML = `<strong>${authorName}:</strong> ${escapeHtml(text)}<div class="timestamp">${time}</div>`;
+      } else {
+        el.innerHTML = `${escapeHtml(text)}<div class="timestamp">${time}</div>`;
+      }
+      chatMessages.appendChild(el);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // typing indicator element
+    let typingEl = null;
+    function showTypingIndicator() {
+      if (typingEl) return;
+      typingEl = document.createElement('div');
+      typingEl.className = 'typing';
+      // create dots animation
+      const dots = document.createElement('div'); dots.className = 'dots';
+      for (let i=0;i<3;i++){ const d = document.createElement('span'); d.className='dot'; dots.appendChild(d); }
+      typingEl.appendChild(dots);
+      // place inside a wrapper msg.other to match style and alignment
+      const wrapper = document.createElement('div');
+      wrapper.className = 'msg other typing-wrapper';
+      wrapper.style.padding = '6px';
+      wrapper.appendChild(typingEl);
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    function hideTypingIndicator() {
+      if (!typingEl) return;
+      const wrapper = typingEl.closest('.typing-wrapper');
+      if (wrapper) wrapper.remove();
+      typingEl = null;
+    }
+
+    // fake auto reply: pick random user and reply text
+    function autoReply() {
+      const user = demoUsers[Math.floor(Math.random() * demoUsers.length)];
+      const text = demoReplies[Math.floor(Math.random() * demoReplies.length)];
+      appendMessage('other', text, user);
+    }
+
+    // helper: escape HTML
+    function escapeHtml(unsafe) {
+      return unsafe.replace(/[&<"'>]/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
+    }
+
+    // dynamic online/offline statuses: randomly toggle statuses every few seconds
+    function randomToggleStatuses() {
+      // randomly pick 1-2 users to flip state to make it lively
+      const count = 1 + Math.floor(Math.random()*2);
+      for (let i=0;i<count;i++){
+        const idx = Math.floor(Math.random() * demoUsers.length);
+        const name = demoUsers[idx];
+        // flip with some probability or set to online/offline randomly
+        statuses[name] = Math.random() > 0.4;
+        updateMemberStatusUI(name);
+      }
+    }
+
+    function updateMemberStatusUI(name) {
+      const dot = document.getElementById(`dot-${name}`);
+      const meta = document.getElementById(`meta-${name}`);
+      if (!dot || !meta) return;
+      if (statuses[name]) {
+        dot.classList.remove('offline'); dot.classList.add('online');
+        meta.textContent = 'Online';
+      } else {
+        dot.classList.remove('online'); dot.classList.add('offline');
+        meta.textContent = 'Offline';
+      }
+    }
+
+    // start dynamic status toggling every 3-5 seconds
+    setInterval(randomToggleStatuses, 3000 + Math.random()*2000);
+
+    // also periodically trigger small simulated conversations (background auto messages)
+    function periodicAutoConversation() {
+      // occasionally (20% chance) someone sends a spontaneous message
+      if (Math.random() < 0.2) {
+        // pick user (prefer online users)
+        const onlineUsers = demoUsers.filter(u => statuses[u]);
+        const pool = onlineUsers.length ? onlineUsers : demoUsers;
+        const user = pool[Math.floor(Math.random() * pool.length)];
+        // show typing for this simulated response
+        showTypingIndicator();
+        const d = 1000 + Math.random()*2000;
+        setTimeout(() => {
+          hideTypingIndicator();
+          const txt = demoReplies[Math.floor(Math.random()*demoReplies.length)];
+          appendMessage('other', txt, user);
+        }, d);
+      }
+    }
+    // run periodic conversation every 6-10s
+    setInterval(periodicAutoConversation, 6000 + Math.random()*4000);
+
+    // initial small welcome typing to feel alive when opening a chat
+    // If user opens chat, show a short typing then a welcome message from Admin if chat only has initial sample
+    function initialWelcomeIfNeeded() {
+      // ensure we only do this if chatMessages has only the initial welcome or 0 messages
+      const msgs = chatMessages.querySelectorAll('.msg');
+      if (msgs.length <= 1) {
+        showTypingIndicator();
+        setTimeout(() => {
+          hideTypingIndicator();
+          appendMessage('other', 'Welcome! Post your questions and study together 😊', 'Chika');
+        }, 900 + Math.random()*1200);
+      }
+    }
+
+    // openChat should call initial welcome
+    function openChat(groupName) {
+      chatGroupName.textContent = groupName;
+      infoGroupName.textContent = groupName;
+      availableGroups.style.display = 'none';
+      chatInterface.style.display = 'block';
+      renderMemberList();
+      // small delay then welcome
+      setTimeout(initialWelcomeIfNeeded, 600);
+    }
+
+    // ensure initial render of statuses and members
+    renderMemberList();
+
+    // make sure keyboard Enter works on mobile
+    messageInput.addEventListener('focus', () => {
+      // no-op but keeps input ready
+    });
+
+    // cleanup typing indicator on unload
+    window.addEventListener('beforeunload', () => { hideTypingIndicator(); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+body {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#intro {
+  max-width: 600px;
+}
+
+#intro h2 {
+  color: #ffd369;
+}
+
+#intro ul {
+  text-align: left;
+  margin: 15px auto;
+  list-style-type: disc;
+}
+
+/* Fade Animations */
+.fade {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
