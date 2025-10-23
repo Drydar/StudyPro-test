@@ -90,6 +90,10 @@ body {
   }
 }
 
+#fullName {
+  max-width: 300px;
+}
+
 .user {
   margin: 0;
   padding: 0 8px;
