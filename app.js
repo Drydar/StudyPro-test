@@ -71,9 +71,13 @@ if (signupBtn) {
 
             // Store user info in Firestore
             await setDoc(doc(db, "users", user.uid), {
-                fullname: fullname,
+                username: fullname,
                 email: email,  // optional if you want to store the email too
-                amount: 0
+                amount: 0,
+                userID: uid,
+                school: school,
+                department: department,
+                level: level
             });
 
             // Display a success message then redirect after a short delay
