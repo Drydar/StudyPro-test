@@ -61,7 +61,7 @@ function displayMessage(message, type = 'info') {
 const signupBtn = document.getElementById('signupBtn');
 if (signupBtn) {
     signupBtn.addEventListener('click', async () => {
-        const fullname = document.getElementById('signupFullName').value;
+        const username = document.getElementById('signupFullName').value;
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
 
@@ -71,7 +71,7 @@ if (signupBtn) {
 
             // Store user info in Firestore
             await setDoc(doc(db, "users", user.uid), {
-                username: fullname,
+                username: username,
                 email: email,  // optional if you want to store the email too
                 amount: 0
             });
@@ -113,7 +113,7 @@ if (document.getElementById('welcomeMessage')) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                document.getElementById('fullName').innerText = `${userData.fullname}`;
+                document.getElementById('username').innerText = `${userData.username}`;
                 document.getElementById('pointsDisplay').innerText = `Wallet Balance ${userData.amount}`;
                 document.getElementById('userIdDisplay').innerText = user.uid;
 
