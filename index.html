@@ -1,314 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
-<link rel="stylesheet" href="login.css">
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-
-  body {
-    height: 100vh;
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-
-  .container {
-    position: relative;
-    width: 380px;
-    height: 600px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.2);
-    backdrop-filter: blur(15px);
-    overflow: hidden;
-    transition: height 0.4s ease;
-  }
-
-  .container.signup-mode {
-    height: 580px;
-  }
-
-  .form {
-    position: absolute;
-    width: 100%;
-    height: max-content;
-    padding: 40px 30px;
-    transition: transform 0.7s ease, opacity 0.7s ease;
-  }
-
-  .form h2 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
-
-  .input-box {
-    position: relative;
-    margin: 25px 0;
-  }
-
-  .input-box input {
-    width: 100%;
-    padding: 10px 40px 10px 10px;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #fff;
-    color: #fff;
-    outline: none;
-  }
-
-  .input-box label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    color: #fff;
-    pointer-events: none;
-    transform: translateY(-50%);
-    transition: 0.3s ease;
-  }
-
-  .input-box input:focus ~ label,
-  .input-box input:valid ~ label {
-    top: -10px;
-    font-size: 13px;
-    color: #ffd369;
-  }
-
-  .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #fff;
-    opacity: 0.8;
-  }
-
-  .toggle-password:hover {
-    opacity: 1;
-  }
-
-  button {
-    width: 100%;
-    background: #ffd369;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    color: #333;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-
-  button:hover {
-    background: #ffb703;
-  }
-
-  .switch {
-    text-align: center;
-    margin-top: 20px;
-    color: #fff;
-    font-size: 14px;
-  }
-
-  .switch span {
-    color: #ffd369;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  /* Third-party login buttons */
-  .social-buttons {
-    margin-top: 20px;
-  }
-
-  .social-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 15px;
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-
-  .social-btn:hover {
-    background: rgba(255,255,255,0.3);
-    transform: scale(1.03);
-  }
-
-  .social-btn img {
-    width: 22px;
-    height: 22px;
-  }
-
-  /* Sliding animation for switching forms */
-  #loginForm {
-    transform: translateX(0);
-    opacity: 1;
-    z-index: 2;
-  }
-
-  #signupForm {
-    transform: translateX(100%);
-    opacity: 0;
-    z-index: 1;
-    margin-top: -20px;
-  }
-
-  .container.signup-mode #loginForm {
-    transform: translateX(-100%);
-    opacity: 0;
-    z-index: 1;
-  }
-
-  .container.signup-mode #signupForm {
-    transform: translateX(0);
-    opacity: 1;
-    z-index: 2;
-  }
-
-  /* Floating background bubbles */
-  @keyframes float {
-    0% { transform: translateY(0); opacity: 0.8; }
-    50% { transform: translateY(-20px); opacity: 1; }
-    100% { transform: translateY(0); opacity: 0.8; }
-  }
-
-  .bubble {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    animation: float 6s infinite ease-in-out;
-  }
-
-  .bubble:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s; }
-  .bubble:nth-child(2) { width: 50px; height: 50px; top: 60%; left: 80%; animation-delay: 2s; }
-  .bubble:nth-child(3) { width: 100px; height: 100px; top: 80%; left: 20%; animation-delay: 1s; }
-  .bubble:nth-child(4) { width: 40px; height: 40px; top: 25%; left: 70%; animation-delay: 3s; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>StudyPRO</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
+  
+</body>
+</html>
+<body>
+  <nav class="navbar">
+    <img src="logo_black.png" style="width: 40px; padding-left: 10px;" class="img-fluid">
+    <div class="hamburger" id="hamburger">
+      ☰
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="profile_page.html">Profile</a></li>
+      <li><a href="#">Home and Pricing</a></li>
+      <li><a href="login.html">CGPA Calculator</a></li>     
+      <li><a href="about.html">About/FAQ</a></li>
+    </ul>
+  </nav>
+  <script src="home.js"></script>
 
-  <!-- Animated background -->
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-
-  <div class="container" id="container">
-    
-    <!-- Login Form -->
-    <div class="form" id="loginForm">
-      <h2>Welcome Back!!</h2>
-      <div class="input-box">
-        <input type="text" required>
-        <label>Username</label>
-      </div>
-      <div class="input-box">
-        <input type="password" id="loginPassword" required>
-        <label>Password</label>
-        <span class="toggle-password" onclick="togglePassword('loginPassword', this)">👁️</span>
-      </div>
-      <button onclick="location.href='home.html';">Login</button>
-      <h2 style="font-size: 20px; margin-top:5px; font-weight: 400;">or</h2>
-
-      <div class="social-buttons">
-        <div class="social-btn">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google">
-          Continue with Google
+  <div class="row m-0">
+    <div class="col-12 col-md-12 col-lg-5">
+      <div class="user" style="margin-top: 70px;">
+        <div class="container">
+          <div class="#" id="name">
+            <h3 style="font-size: 28px; font-weight: 500;">Welcome</h3>
+            <span id="userID">
+              <h4 style="padding-top: 17px; font-size: 85%; font-weight: 800;">Nnanna<br>Praise</h4>
+            </span>
+            <p style="font-size: 45%; margin-top: 0px;">Chemical Engineering</p>
+            <p style="font-size: 45%; margin-top: -20px;">200 level</p>
+          </div>
         </div>
-        <div class="social-btn">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-          Continue with Apple
-        </div>
-      </div>
-
-      <div class="switch">
-        Don’t have an account? <span onclick="toggleMode()">Sign Up</span>
       </div>
     </div>
 
-    <!-- Sign Up Form -->
-    <div class="form" id="signupForm">
-      <h2>Create an account</h2>
-      <div class="input-box">
-        <input type="text" required>
-        <label>Full Name</label>
-      </div>
-      <div class="input-box">
-        <input type="email" required>
-        <label>Email</label>
-      </div>
-      <div class="input-box">
-        <input type="password" id="signupPassword" required>
-        <label>Password</label>
-        <span class="toggle-password" onclick="togglePassword('signupPassword', this)">👁️</span>
-      </div>
-      <div class="input-box">
-        <select class="select">
-          <option value="">-- Select your school --</option>
-          <option>Federal University of Technology Owerri (FUTO)</option>
-          <option>**</option>
-        </select>
-      </div>
-      <button>Sign Up</button>
-
-      <div class="social-buttons">
-        <div class="social-btn">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google">
-          Sign up with Google
-        </div>
-        <div class="social-btn">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-          Sign up with Apple
+    <div class="col-12 col-md-12 col-lg-7">
+      <div style="margin-top: 60px;">
+        <h2 class="school">StudyPRO<br><b>FEDERAL UNIVERSITY OF TECHNOLOGY OWERRI (FUTO)</b></h2>
+        <div class="row" id="sections">
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('1.jpg');" onclick="location.href='my_courses.html';"><h2>My Courses</h2>
+            <p>Your personal learninig space! Access all your courses, track your progress and study at your own pace.<br>Everything you need to master your courses is right here.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('2.jpg');" onclick="location.href='study_groups.html'"><h2>Study Groups</h2>
+            <p>Learn better with peers! Join study groups, discuss topics, share ideas and tackle problems together. Collaboration makes learning fun and interactive.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('3.jpg');"><h2>Calculator Mastery</h2>
+            <p>Numbers made easy! Learn step-by-step hot to use your calculator for any type of math problem. Perfect for building confidence in calculations.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('4.jpg');" onclick="location.href='assignment.html';"><h2>Assignment Assistant</h2>
+            <p>Stuck on assignments or not enough time? Get guidance and solutions that help you complete work faster, easier and accurate.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('5.jpg');"><h2>Manual Filling</h2>
+            <p>Difficulty in filling your manuals, too busy or in need of help? Our always-ready team will ensure its success in every aspect.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('6.jpg');" onclick="location.href='book_tutor.html';"><h2>One-on-One Tutoring</h2>
+            <p>Personalized attention works wonders! Connect with our expert tutors for private lessons tailored to your pace and learning style. Achieve more with focused guidance.</p>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6" id="each_section" style="background-image: url('7.jpg');"><h2>Join an Online Class</h2>
+            <p>Experience real-time learning! Join live classes, ask questions, and engage directly with instructors. It's like being in a classroom, anytime, anywhere.</p>
+          </div>
         </div>
       </div>
-
-      <div class="switch">
-        Already have an account? <span onclick="toggleMode()">Login</span>
-      </div>
+    </div>
+  
+  <!--<div class="content-tab">
+    <div class="content">
+      <nav class="nav-taps">
+        <p>Faculty</p>
+        <p>CBT<br>Practice</p>
+        <p>Assignment<br>Aid</p>
+      </nav>
     </div>
   </div>
 
-<script>
-  const container = document.getElementById('container');
+  <div class="title">
+    <h2>Which department will you like to visit?</h2>
+  </div>
+  
+  <div class="content-tab">
+    <div class="content">
+      <nav class="nav-taps">
+        <p>Faculty</p>
+        <p>CBT<br>Practice</p>
+        <p>Assignment<br>Aid</p>
+      </nav>
+    </div>
+  </div>
 
-  // Toggle between login and signup mode with smooth slide
-  function toggleMode() {
-    container.classList.toggle('signup-mode');
-  }
-
-  // Toggle password visibility
-  function togglePassword(id, el) {
-    const input = document.getElementById(id);
-    if (input.type === 'password') {
-      input.type = 'text';
-      el.textContent = '🙈';
-    } else {
-      input.type = 'password';
-      el.textContent = '👁️';
-    }
-  }
-</script>
+  <div class="title">
+    <h2>Which department will you like to visit?</h2>
+  </div>
+  
+  <div class="content-tab">
+    <div class="content">
+      <nav class="nav-taps">
+        <p>Faculty</p>
+        <p>CBT<br>Practice</p>
+        <p>Assignment<br>Aid</p>
+      </nav>
+    </div>
+  </div>-->
 
 </body>
 </html>
