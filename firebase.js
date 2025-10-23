@@ -1,57 +1,30 @@
-// firebase.js
-// Works with Firebase v11 CDN SDK
+// Import the Firebase functions you need
+import { initializeApp } from "firebase/app";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  OAuthProvider 
+} from "firebase/auth";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  GoogleAuthProvider,
-  OAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/6.0.1/firebase-auth.js";
-
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/6.0.1/firebase-firestore.js";
-
-// 🟡 Replace this with your actual Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBM2Xs75Gr4s3kT2inyebPFFHJ9s7S1mQM",
+  authDomain: "studypro-74ae2.firebaseapp.com",
+  projectId: "studypro-74ae2",
+  storageBucket: "studypro-74ae2.firebasestorage.app",
+  messagingSenderId: "453552383297",
+  appId: "1:453552383297:web:9e28143b4aa445682cadc0"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
-// Export everything needed by auth.js
-export {
-  app,
-  auth,
-  db,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  GoogleAuthProvider,
-  OAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-};
+// Initialize Firebase Authentication
+const auth = getAuth(app);
+
+// Setup Providers
+const googleProvider = new GoogleAuthProvider();
+const appleProvider = new OAuthProvider('apple.com');
+
+// Export for use in other files
+export { auth, googleProvider, appleProvider };
