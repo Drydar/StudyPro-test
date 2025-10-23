@@ -80,7 +80,7 @@ if (signupBtn) {
             displayMessage('Signup successful!', 'success');
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 1000);
+            }, 2000);
         } catch (error) {
             displayMessage('Error: ' + error.message, 'error');
         }
@@ -99,7 +99,7 @@ if (loginBtn) {
             displayMessage('Login successful!', 'success');
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 1000);
+            }, 2000);
         } catch (error) {
             displayMessage('Error: ' + error.message, 'error');
         }
@@ -114,7 +114,7 @@ if (document.getElementById('welcomeMessage')) {
             if (userDoc.exists()) {
                 const userData = userDoc.data();
                 document.getElementById('welcomeMessage').innerText = `Hello ${userData.username}`;
-                document.getElementById('pointsDisplay').innerText = `Points earned: ${userData.points}`;
+                document.getElementById('pointsDisplay').innerText = `Points earned: ${userData.amount}`;
                 document.getElementById('userIdDisplay').innerText = user.uid;
 
                 // Add copy user ID functionality
