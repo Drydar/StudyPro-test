@@ -1,65 +1,114 @@
+// auth.js
 import { auth, googleProvider, appleProvider } from "./firebase.js";
 import { 
   createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithEmailAndPassword, 
+  signInWithPopup, 
   signOut 
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
-// ------------------ EMAIL + PASSWORD ------------------
-export const registerUser = async (email, password) => {
+// ---------- SIGN UP (Email + Password) ----------
+document.getElementById("signupBtn").addEventListener("click", async () => {
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("User registered:", userCredential.user);
-    return userCredential.user;
+    alert("Signup successful!");
+    console.log("User:", userCredential.user);
+
+    // ✅ Redirect to dashboard after successful signup
+    window.location.href = "index.html";
   } catch (error) {
     alert(error.message);
-    console.error("Signup error:", error.message);
+    console.error("Signup error:", error);
   }
-};
+});
 
-export const loginUser = async (email, password) => {
+// ---------- LOGIN (Email + Password) ----------
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("User logged in:", userCredential.user);
-    return userCredential.user;
+    alert("Login successful!");
+    console.log("User:", userCredential.user);
+
+    // ✅ Redirect to dashboard after successful login
+    window.location.href = "index.html";
   } catch (error) {
     alert(error.message);
-    console.error("Login error:", error.message);
+    console.error("Login error:", error);
   }
-};
+});
 
-// ------------------ GOOGLE ------------------
-export const loginWithGoogle = async () => {
+// ---------- GOOGLE SIGN IN ----------
+document.getElementById("googleSignupBtn").addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    console.log("Google login successful:", result.user);
-    return result.user;
+    alert("Google signup/login successful!");
+    console.log(result.user);
+
+    // ✅ Redirect to dashboard
+    window.location.href = "index.html";
   } catch (error) {
     alert(error.message);
-    console.error("Google login error:", error.message);
+    console.error("Google auth error:", error);
   }
-};
+});
 
-// ------------------ APPLE ------------------
-export const loginWithApple = async () => {
+document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    alert("Google login successful!");
+    console.log(result.user);
+
+    // ✅ Redirect to dashboard
+    window.location.href = "index.html";
+  } catch (error) {
+    alert(error.message);
+    console.error("Google auth error:", error);
+  }
+});
+
+// ---------- APPLE SIGN IN ----------
+document.getElementById("appleSignupBtn").addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, appleProvider);
-    console.log("Apple login successful:", result.user);
-    return result.user;
+    alert("Apple signup/login successful!");
+    console.log(result.user);
+
+    // ✅ Redirect to dashboard
+    window.location.href = "index.html";
   } catch (error) {
     alert(error.message);
-    console.error("Apple login error:", error.message);
+    console.error("Apple auth error:", error);
   }
-};
+});
 
-// ------------------ LOGOUT ------------------
+document.getElementById("appleLoginBtn").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, appleProvider);
+    alert("Apple login successful!");
+    console.log(result.user);
+
+    // ✅ Redirect to dashboard
+    window.location.href = "index.html";
+  } catch (error) {
+    alert(error.message);
+    console.error("Apple auth error:", error);
+  }
+});
+
+// ---------- LOGOUT FUNCTION (Optional) ----------
 export const logoutUser = async () => {
   try {
     await signOut(auth);
-    console.log("User logged out");
+    alert("Logged out successfully!");
+    window.location.href = "index.html"; // Redirect back to login page
   } catch (error) {
-    alert(error.message);
-    console.error("Logout error:", error.message);
+    alert("Logout failed: " + error.message);
+    console.error("Logout error:", error);
   }
 };
