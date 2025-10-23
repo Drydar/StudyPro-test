@@ -113,8 +113,8 @@ if (document.getElementById('welcomeMessage')) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                document.getElementById('welcomeMessage').innerText = `Hello ${userData.username}`;
-                document.getElementById('pointsDisplay').innerText = `Points earned: ${userData.amount}`;
+                document.getElementById('welcomeMessage').innerText = `${userData.username}`;
+                document.getElementById('pointsDisplay').innerText = `Wallet Balance ${userData.amount}`;
                 document.getElementById('userIdDisplay').innerText = user.uid;
 
                 // Add copy user ID functionality
