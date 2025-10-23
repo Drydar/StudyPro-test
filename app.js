@@ -112,7 +112,7 @@ if (loginBtn) {
 }
 
 // --- Dashboard (Show username, points, and uid) ---
-if (document.getElementById('welcomeMessage')) {
+if (document.getElementById('fullName')) {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
