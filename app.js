@@ -31,9 +31,9 @@ function displayMessage(message, type = 'info') {
         messageEl.style.left = '50%';
         messageEl.style.transform = 'translateX(-50%)';
         messageEl.style.padding = '10px 20px';
-        messageEl.style.borderRadius = '5px';
-        messageEl.style.fontFamily = 'Arial, sans-serif';
-        messageEl.style.zIndex = '1000';
+        messageEl.style.borderRadius = '9px';
+        messageEl.style.fontFamily = 'Poppins';
+        messageEl.style.zIndex = '1200';
         document.body.appendChild(messageEl);
     }
     // Set background and text colors based on the type of message
