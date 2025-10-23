@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet" href="login.css">
-<script type="module" src="firebase.js"></script>
-<script type="module" src="auth.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="module" src="./firebase.js"></script>
+
 <style>
   * {
     margin: 0;
@@ -301,8 +303,10 @@
       </div>
     </div>
   </div>
-    <!-- 🔔 Toast Container -->
-    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
+
+  <div id="toastContainer" class="toast-containe position-fixed bottom-0 end-0 p-3"></div>
+
+  <script type="module" src="./auth.js"></script>
 
 <script>
   const container = document.getElementById('container');

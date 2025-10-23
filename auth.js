@@ -1,186 +1,172 @@
+// auth.js
+// Make sure Bootstrap JS & CSS are linked in auth.html
+
 import {
   auth,
   db,
-  doc,
-  setDoc,
-  sendPasswordResetEmail,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   GoogleAuthProvider,
   OAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
+  signOut,
+  doc,
+  setDoc
 } from "./firebase.js";
 
-const signupForm = document.getElementById("signupForm");
-const loginForm = document.getElementById("loginForm");
-const toLogin = document.getElementById("toLogin");
-const toSignup = document.getElementById("toSignup");
-const forgotPassword = document.getElementById("forgotPassword");
-const toastContainer = document.getElementById("toastContainer");
-
-// 🔔 Toast Message
+// 🔔 Toast (animated alert) function
 function showToast(message, type = "success") {
+  const toastContainer = document.getElementById("toastContainer");
   const bg = type === "error" ? "bg-danger" : "bg-success";
-  const toastEl = document.createElement("div");
-  toastEl.className = `toast align-items-center text-white border-0 ${bg}`;
-  toastEl.innerHTML = `
+  const toast = document.createElement("div");
+
+  toast.className = `toast align-items-center text-white border-0 ${bg}`;
+  toast.role = "alert";
+  toast.innerHTML = `
     <div class="d-flex">
       <div class="toast-body">${message}</div>
       <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>`;
-  toastContainer.appendChild(toastEl);
-  const toast = new bootstrap.Toast(toastEl);
-  toast.show();
-  setTimeout(() => toastEl.remove(), 4000);
+    </div>
+  `;
+
+  toastContainer.appendChild(toast);
+  const bsToast = new bootstrap.Toast(toast);
+  bsToast.show();
+  setTimeout(() => toast.remove(), 4000);
 }
 
-// 🔄 Toggle Between Login and Signup
-toLogin.addEventListener("click", () => {
-  signupForm.classList.remove("show");
-  signupForm.classList.add("hide");
-  setTimeout(() => {
-    loginForm.classList.remove("hide");
-    loginForm.classList.add("show");
-  }, 300);
-});
-
-toSignup.addEventListener("click", () => {
-  loginForm.classList.remove("show");
-  loginForm.classList.add("hide");
-  setTimeout(() => {
-    signupForm.classList.remove("hide");
-    signupForm.classList.add("show");
-  }, 300);
-});
-
-// 📝 SIGN UP
-document.getElementById("signupBtn").addEventListener("click", async (e) => {
+// 🔹 Signup
+const signupBtn = document.getElementById("signupBtn");
+signupBtn?.addEventListener("click", async (e) => {
   e.preventDefault();
   const fullname = document.getElementById("signupFullname").value.trim();
-  const school = document.getElementById("signupSchool").value.trim();
   const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value.trim();
+  const password = document.getElementById("signupPassword").value;
 
-  if (!fullname || !school || !email || !password)
+  if (!fullname || !email || !password) {
     return showToast("Please fill all fields", "error");
+  }
 
   try {
-    const btn = e.target;
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Signing up...`;
-    btn.disabled = true;
+    signupBtn.disabled = true;
+    signupBtn.textContent = "Signing up...";
 
     const userCred = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCred.user;
-    await setDoc(doc(db, "users", user.uid), {
+    await setDoc(doc(db, "users", userCred.user.uid), {
       fullname,
       email,
-      school,
-      department: "",
-      level: "",
+      joinedAt: new Date().toISOString()
     });
+
     showToast("Signup successful 🎉");
     setTimeout(() => (window.location.href = "index.html"), 1500);
-  } catch (error) {
-    showToast(error.message, "error");
+  } catch (err) {
+    console.error(err);
+    showToast(err.message, "error");
   } finally {
-    e.target.innerHTML = "Sign Up";
-    e.target.disabled = false;
+    signupBtn.disabled = false;
+    signupBtn.textContent = "Sign Up";
   }
 });
 
-// 🔐 LOGIN
-document.getElementById("loginBtn").addEventListener("click", async (e) => {
+// 🔹 Login
+const loginBtn = document.getElementById("loginBtn");
+loginBtn?.addEventListener("click", async (e) => {
   e.preventDefault();
   const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
+  const password = document.getElementById("loginPassword").value;
 
-  if (!email || !password) return showToast("Enter all fields", "error");
+  if (!email || !password) return showToast("Enter both fields", "error");
 
   try {
-    const btn = e.target;
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Logging in...`;
-    btn.disabled = true;
-
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Logging in...";
     await signInWithEmailAndPassword(auth, email, password);
     showToast("Login successful 🎉");
-    setTimeout(() => (window.location.href = "index.html"), 1500);
-  } catch (error) {
-    showToast(error.message, "error");
+    setTimeout(() => (window.location.href = "index.html"), 1000);
+  } catch (err) {
+    console.error(err);
+    showToast(err.message, "error");
   } finally {
-    e.target.innerHTML = "Login";
-    e.target.disabled = false;
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
   }
 });
 
-// 🔑 Forgot Password
-forgotPassword.addEventListener("click", async () => {
-  const email = prompt("Enter your registered email:");
-  if (!email) return;
-  try {
-    await sendPasswordResetEmail(auth, email);
-    showToast("Password reset link sent! Check your email.");
-  } catch (error) {
-    showToast(error.message, "error");
-  }
-});
-
-// 🌐 Google Sign Up/Login
-async function handleGoogleAuth() {
+// 🔹 Google Auth
+const googleLogin = document.getElementById("googleLogin");
+googleLogin?.addEventListener("click", async () => {
   try {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        fullname: user.displayName || "Google User",
-        email: user.email,
-        school: "Not set",
-        department: "",
-        level: "",
-      },
-      { merge: true }
-    );
-    showToast("Login successful 🎉");
-    setTimeout(() => (window.location.href = "index.html"), 1500);
-  } catch (error) {
-    showToast(error.message, "error");
-  }
-}
-document.getElementById("googleLogin").addEventListener("click", handleGoogleAuth);
-document.getElementById("googleSignup").addEventListener("click", handleGoogleAuth);
 
-// 🍎 Apple Sign Up/Login
-async function handleAppleAuth() {
+    await setDoc(doc(db, "users", user.uid), {
+      fullname: user.displayName || "Google User",
+      email: user.email,
+      joinedAt: new Date().toISOString()
+    }, { merge: true });
+
+    showToast("Google login successful 🎉");
+    setTimeout(() => (window.location.href = "index.html"), 1000);
+  } catch (err) {
+    console.error(err);
+    showToast(err.message, "error");
+  }
+});
+
+// 🔹 Apple Auth
+const appleLogin = document.getElementById("appleLogin");
+appleLogin?.addEventListener("click", async () => {
   try {
     const provider = new OAuthProvider("apple.com");
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        fullname: user.displayName || "Apple User",
-        email: user.email,
-        school: "Not set",
-        department: "",
-        level: "",
-      },
-      { merge: true }
-    );
-    showToast("Login successful 🎉");
-    setTimeout(() => (window.location.href = "index.html"), 1500);
-  } catch (error) {
-    showToast(error.message, "error");
-  }
-}
-document.getElementById("appleLogin").addEventListener("click", handleAppleAuth);
-document.getElementById("appleSignup").addEventListener("click", handleAppleAuth);
 
-// 🚀 AUTO REDIRECT IF ALREADY LOGGED IN
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // If user is logged in already, go straight to dashboard
-    window.location.href = "index.html";
+    await setDoc(doc(db, "users", user.uid), {
+      fullname: user.displayName || "Apple User",
+      email: user.email,
+      joinedAt: new Date().toISOString()
+    }, { merge: true });
+
+    showToast("Apple login successful 🎉");
+    setTimeout(() => (window.location.href = "index.html"), 1000);
+  } catch (err) {
+    console.error(err);
+    showToast(err.message, "error");
   }
+});
+
+// 🔹 Forgot password
+const forgotPassword = document.getElementById("forgotPassword");
+forgotPassword?.addEventListener("click", async () => {
+  const email = prompt("Enter your registered email:");
+  if (!email) return;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showToast("Password reset email sent — check your inbox");
+  } catch (err) {
+    console.error(err);
+    showToast(err.message, "error");
+  }
+});
+
+// 🔹 Logout
+const logoutBtn = document.getElementById("logoutBtn");
+logoutBtn?.addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    showToast("Logged out successfully 👋");
+    setTimeout(() => (window.location.href = "auth.html"), 1000);
+  } catch (err) {
+    console.error(err);
+    showToast("Logout failed", "error");
+  }
+});
+
+// 🔹 Auth state listener
+onAuthStateChanged(auth, (user) => {
+  console.log("User:", user?.email || "Not logged in");
 });
