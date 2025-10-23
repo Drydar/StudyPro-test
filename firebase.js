@@ -1,4 +1,4 @@
-// Import the Firebase functions you need
+// firebase.js
 import { initializeApp } from "firebase/app";
 import { 
   getAuth, 
@@ -6,7 +6,7 @@ import {
   OAuthProvider 
 } from "firebase/auth";
 
-// Your web app's Firebase configuration
+// 🔧 Replace with your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBM2Xs75Gr4s3kT2inyebPFFHJ9s7S1mQM",
   authDomain: "studypro-74ae2.firebaseapp.com",
@@ -19,12 +19,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication
+// Initialize Authentication
 const auth = getAuth(app);
 
-// Setup Providers
+// Providers
 const googleProvider = new GoogleAuthProvider();
-const appleProvider = new OAuthProvider('apple.com');
+const appleProvider = new OAuthProvider("apple.com");
 
-// Export for use in other files
+// Export them for use in auth.js
 export { auth, googleProvider, appleProvider };
