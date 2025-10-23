@@ -118,7 +118,7 @@ if (document.getElementById('welcomeMessage')) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                document.getElementById('username').innerText = `${userData.username}`;
+                document.getElementById('fullName').innerText = `${userData.username}`;
                 document.getElementById('pointsDisplay').innerText = `Wallet Balance ${userData.amount}`;
                 document.getElementById('userIdDisplay').innerText = user.uid;
 
