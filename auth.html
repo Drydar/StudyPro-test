@@ -6,16 +6,19 @@
 <title>Login</title>
 <link rel="stylesheet" href="login.css">
 <link href="css/bootstrap.min.css" rel="stylesheet"/>
-<link rel="icon" type="image/png" href="icon.png">
 <script src="js/bootstrap.bundle.min.js"></script>
-<script type="module" src="./firebase.js"></script>
-</head>
-<body>
-  <style>
-    .container {
+<script type="module" src="app.js"></script>
+
+<style>
+  .spinner-border {
+      width: 1rem;
+      height: 1rem;
+    }
+
+  .container {
     position: relative;
     width: 380px;
-    height: 570px;
+    height: 600px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     box-shadow: 0 0 25px rgba(0,0,0,0.2);
@@ -26,8 +29,11 @@
 
   .container.signup-mode {
     height: 580px;
-  }  
-  </style>
+  }
+</style>
+</head>
+
+<body>
 
   <!-- Animated background -->
   <div class="bubble"></div>
@@ -35,6 +41,7 @@
   <div class="bubble"></div>
   <div class="bubble"></div>
 
+  <div id="message"></div>
   <div class="container" id="container">
     
     <!-- Login Form -->
@@ -56,18 +63,18 @@
       <h2 style="font-size: 20px; margin-top:5px; font-weight: 400;">or</h2>
 
       <div class="social-buttons">
-        <div class="social-btn" id="googleLogin">
+        <div class="social-btn" id="googleLoginBtn">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google">
           Continue with Google
         </div>
-        <div class="social-btn" id="appleLogin">
+        <div class="social-btn" id="appleLoginBtn">
           <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
           Continue with Apple
         </div>
       </div>
 
       <div class="switch">
-        Don’t have an account? <span onclick="toggleMode()">SIGN UP</span>
+        Don’t have an account? <span onclick="toggleMode()">Sign Up</span>
       </div>
     </div>
 
@@ -87,15 +94,15 @@
         <label>Password</label>
         <span class="toggle-password" onclick="togglePassword('signupPassword', this)">👁️</span>
       </div>
-      <button type="submit" id="signupBtn">Sign Up</button>
+      <button id="signupBtn">Sign Up</button>
       <h2 style="font-size: 20px; margin-top:5px; font-weight: 400;">or</h2>
 
       <div class="social-buttons">
-        <div class="social-btn" id="googleSignup">
+        <div class="social-btn" id="googleSignupBtn">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google">
           Sign up with Google
         </div>
-        <div class="social-btn" id="appleSignup">
+        <div class="social-btn" id="appleSignupBtn">
           <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
           Sign up with Apple
         </div>
@@ -105,8 +112,9 @@
         Already have an account? <span onclick="toggleMode()">Login</span>
       </div>
     </div>
-    <p id="message"></p>
   </div>
+
+  <div id="toastContainer" class="toast-containe position-fixed bottom-0 end-0 p-3"></div>
 
 <script>
   const container = document.getElementById('container');
