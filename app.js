@@ -26,10 +26,10 @@ function displayMessage(message, type = 'info') {
         messageEl = document.createElement('div');
         messageEl.id = 'message';
         // Basic styling (you can override this with your CSS)
-        messageEl.style.position = 'fixed';
+        messageEl.style.position = 'absolute';
         messageEl.style.bottom = '20px';
         messageEl.style.left = '50%';
-        messageEl.style.transform = 'translateX(-50%)';
+        messageEl.style.transform = 'translateX(-80%)';
         messageEl.style.padding = '10px 20px';
         messageEl.style.borderRadius = '9px';
         messageEl.style.fontFamily = 'Poppins';
@@ -38,13 +38,18 @@ function displayMessage(message, type = 'info') {
     }
     // Set background and text colors based on the type of message
     if (type === 'error') {
-        messageEl.style.backgroundColor = '#f8d7da';
-        messageEl.style.color = '#721c24';
-        messageEl.style.border = '1px solid #f5c6cb';
+        messageEl.style.backgroundColor = 'none';
+        messageEl.style.color = 'red';
+        messageEl.style.border = 'none';
+        messageEl.style.fontSize = '18px';
+        messageEl.style.fontWeight = '600';
     } else if (type === 'success') {
         messageEl.style.backgroundColor = '#d4edda';
         messageEl.style.color = '#155724';
         messageEl.style.border = '1px solid #c3e6cb';
+        messageEl.style.fontSize = '18px'
+        messageEl.style.borderRadius = '9px';
+        messageEl.style.fontWeight = '600';
     } else {
         messageEl.style.backgroundColor = '#d1ecf1';
         messageEl.style.color = '#0c5460';
@@ -82,7 +87,7 @@ if (signupBtn) {
                 window.location.href = 'index.html';
             }, 2000);
         } catch (error) {
-            displayMessage('Error: ' + error.message, 'error');
+            displayMessage('Invalid Credentials or account not found', 'error');
         }
     });
 }
@@ -101,7 +106,7 @@ if (loginBtn) {
                 window.location.href = 'index.html';
             }, 2000);
         } catch (error) {
-            displayMessage('Error: ' + error.message, 'error');
+            displayMessage('Invalid Credentials or account not found', 'error');
         }
     });
 }
