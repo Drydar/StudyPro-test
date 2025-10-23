@@ -73,11 +73,7 @@ if (signupBtn) {
             await setDoc(doc(db, "users", user.uid), {
                 username: fullname,
                 email: email,  // optional if you want to store the email too
-                amount: 0,
-                userID: uid,
-                school: school,
-                department: department,
-                level: level
+                amount: 0
             });
 
             // Display a success message then redirect after a short delay
@@ -117,7 +113,7 @@ if (document.getElementById('welcomeMessage')) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                document.getElementById('welcomeMessage').innerText = `${userData.username}`;
+                document.getElementById('fullName').innerText = `${userData.fullname}`;
                 document.getElementById('pointsDisplay').innerText = `Wallet Balance ${userData.amount}`;
                 document.getElementById('userIdDisplay').innerText = user.uid;
 
